@@ -133,7 +133,7 @@ function createPayload(row) {
   return {
     "fields": {
       "project": {
-        "key": "OPS"
+        "key": "teste"
       },
         "issuetype": {
         "id": "10100"

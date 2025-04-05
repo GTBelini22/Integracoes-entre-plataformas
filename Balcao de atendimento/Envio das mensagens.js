@@ -162,21 +162,18 @@ function montarMensagem(assunto,diferencaHoras) {
   if (diferencaHoras == 4){
     var mensagem = `<p>A solicitação sobre <strong>${assunto}</strong> está sem previsão de conslusão há 4 horas. Por gentileza, verifique o chamado, calcule a data necessária e preencha no local apropriado para que o solicitante seja informado.</p>
 
-    <p>Obrigado!
-    Growth Ops</p>`;
+    <p>Obrigado!<p>`;
 
   }
   else if (diferencaHoras == 8){
     var mensagem = `<p>A solicitação sobre <strong>${assunto}</strong> está sem previsão de conslusão há 8 horas. Por gentileza, verifique o chamado, calcule a data necessária e preencha no local apropriado para que o solicitante seja informado.</p>
 
-    <p>Obrigado!
-    Growth Ops</p>`;
+    <p>Obrigado!</p>`;
   }
   else if (diferencaHoras == 10){
     var mensagem = `<p>A solicitação sobre <strong>${assunto}</strong> passou o prazo de 9 horas. Por gentileza, verifique o chamado, calcule a data necessária e preencha no local apropriado para que o solicitante seja informado.</p>
 
-    <p>Obrigado!
-    Growth Ops</p>`;
+    <p>Obrigado!</p>`;
   }
   return mensagem;
 }
