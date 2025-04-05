@@ -24,8 +24,8 @@ def get_object_hubspot_by_id(api_client, object_type: str, object_id: str, prope
 
 
 # Função para buscar as associações entre grupo econômico e clientes áreas
-def get_associations_grupo_eco_cliente_area(hubspot_access_token, objectId):
-    url = "https://api.hubapi.com/crm/v3/associations/2-34070289/2-2451195/batch/read"
+def get_associations_grupo_eco_cliente(hubspot_access_token, objectId):
+    url = "https://api.hubapi.com/crm/v3/associations/2-XXXX/2-XXX/batch/read"
     payload = json.dumps({
         "inputs": [{"id": str(objectId)}]
     })
@@ -36,10 +36,10 @@ def get_associations_grupo_eco_cliente_area(hubspot_access_token, objectId):
 
     try:
         # Requisição para buscar associações entre grupo econômico e cliente área
-        response_cliente_area = requests.post(url, headers=headers, data=payload)
+        response_cliente = requests.post(url, headers=headers, data=payload)
         # Converte a resposta para JSON
-        json_response_cliente_area = response_cliente_area.json().get('results', [])
-        return json_response_cliente_area
+        json_response_cliente = response_cliente.json().get('results', [])
+        return json_response_cliente
     except Exception as e:
         print(f'[INFO] Fail getting associations between deal and cliente area: {e}')
         raise
@@ -61,10 +61,10 @@ def main(event):
     api_client = HubSpot(access_token=ACCESS_TOKEN)
 
     # Parâmetros que queremos obter dos clientes áreas
-    cliente_area_parameters = ["hs_object_id", "data_renovacao"]
+    cliente_parameters = ["hs_object_id", "data_renovacao"]
 
     # Obter o nome do grupo econômico do evento
-    nome_do_grupo_econ_mico = event["inputFields"]["nome_do_grupo_econ_mico"]
+    nome_do_grupo_econ_mico = event["inputFields"]["nome_do_grupo"]
 
     attempt = 0  # Contador de tentativas
     max_attempts = 3  # Número máximo de tentativas
@@ -75,7 +75,7 @@ def main(event):
         print(f'Tentativa {attempt} de {max_attempts}...')
 
         # Buscar associações entre grupo econômico e clientes áreas
-        response = get_associations_grupo_eco_cliente_area(ACCESS_TOKEN, objectId)
+        response = get_associations_grupo_eco_cliente(ACCESS_TOKEN, objectId)
 
         # Lista para armazenar os IDs dos clientes áreas
         if response and len(response) > 0 and 'to' in response[0]:
@@ -84,16 +84,16 @@ def main(event):
             listas_id_clientes_area = []
 
         if not listas_id_clientes_area:
-            print(f'Nenhum cliente área encontrado na tentativa {attempt}')
+            print(f'Nenhum cliente encontrado na tentativa {attempt}')
             continue  # Tenta novamente se não encontrar clientes
 
         # Obter as informações de cada cliente área usando o ID
-        response_cliente_area = list(map(lambda id_cliente: get_object_hubspot_by_id(api_client, "2-2451195", id_cliente, cliente_area_parameters), listas_id_clientes_area))
+        response_cliente = list(map(lambda id_cliente: get_object_hubspot_by_id(api_client, "2-XX", id_cliente, cliente_parameters), listas_id_clientes_area))
 
         listas_Datas = []
         # Iterar sobre os dados dos clientes áreas e extrair as datas de renovação
-        for cliente_area in response_cliente_area:
-            data_renovacao_nao_tratada = cliente_area.properties.get('data_renovacao')
+        for cliente in response_cliente:
+            data_renovacao_nao_tratada = cliente.properties.get('data_renovacao')
             print(data_renovacao_nao_tratada)
             if data_renovacao_nao_tratada != None:
                 listas_Datas.append(datetime.strptime(data_renovacao_nao_tratada, "%Y-%m-%d"))
