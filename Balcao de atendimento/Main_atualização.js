@@ -3,7 +3,7 @@ const SPREADSHEET_ID = 'XXX';
 const SPREADSHEET_ID2 = 'XXX';
 const JIRA_URL_BASE = 'https://XXX.atlassian.net/rest/api/3/issue/';
 const JIRA_USERNAME = 'XXX@exemplo.com';
-const JIRA_TOKEN = 'Jira token';
+const JIRA_TOKEN = 'Jira-token';
 const keyRegex = /"key":"(teste-\d+)"/;
 
 

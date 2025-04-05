@@ -159,7 +159,7 @@ function atualizaSheets_previsao(atualizacao, row, sheet){
 function montarMensagem_previsao(dados,diferencaHoras) {
   // Construa a mensagem usando os dados da linha e a diferença em dias
   if (diferencaHoras == 1){
-    var mensagem = `<p>A solicitação sobre <strong>${dados[3]}</strong>  está com previsão de conslusão para amanhã.</p>`;
+    var mensagem = `<p>A solicitação sobre <strong>${dados[3]}</strong>  está com previsão de conslusão para amanhã.</p>1`;
 
     var assunto = `Balcão de Atendimento - Alerta de chamado com apenas 1 dia para a conclusão - ${dados[0]}`;
   }
